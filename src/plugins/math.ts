@@ -16,7 +16,7 @@ big.prototype.toNumber = function(){
 }
 const Big = (opt: any) => new big(opt)
 
-
+// BUG ==> 字符为负数时 separate 字段分割错误
 // 将数字转换为可以显示的格式
 const Price = (num: string | number, {
     float = 2, // 保留几位小数

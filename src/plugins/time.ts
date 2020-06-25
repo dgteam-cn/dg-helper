@@ -12,7 +12,8 @@ const Time = (time: number | string | Date | undefined = new Date(), format: str
         if(time === '' || time === '0000-00-00' || time === '0000-00-00 00:00:00' || time === '0000-00-00 00:00'){
             time = new Date(0)
         }else{
-            time = new Date(time)
+            // time = new Date(time)
+            time = new Date(time.replace(/-/g, "/")) // 为了支持 Safari 浏览器
         }
     }else if(typeof time === 'number'){
         if(time % 1 === 0 && time < 10000000000){

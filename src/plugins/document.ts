@@ -21,7 +21,7 @@ const mineTypeMap = {
         'set-payment-initiation': 'setpay',
         'set-registration-initiation': 'setreg',
         'vnd.ms-excel': [ 'xla', 'xlc', 'xlm', 'xls', 'xlt', 'xlw' ],
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+        'vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
         'vnd.ms-outlook': 'msg',
         'vnd.ms-pkicertstore': 'sst',
         'vnd.ms-pkiseccat': 'cat',
