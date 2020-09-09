@@ -1,15 +1,17 @@
-# install
+## install 安装
 ```shell
 npm i @dgteam/helper --save
 # or
 yarn add @dgteam/helper --save
 ```
+
+## use 使用
 ```javascript
-improt Bass form '@dgteam/helper'
-// const Base = require('dg-helper/dis/index.js) // in nodejs
-// 模块导出默认使用 commonjs 规范，如需其他规范请在 /build/webpack.config.js 中修改 output 参数后，执行 npm run build 命令
+improt helper form '@dgteam/helper' // in browser
+// const Base = require('@dgteam/helper/dis/index.js) // in nodejs
 ```
 
+## test 测试
 ```shell
 # dev
 npm start
