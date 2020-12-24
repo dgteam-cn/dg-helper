@@ -1,4 +1,4 @@
-import {Big} from './math'
+import { Big } from './math';
 // const mineTypeMap = {
 //     'application': {
 //         'envoy': 'evy',
@@ -143,7 +143,6 @@ import {Big} from './math'
 //         'x-world/x-vrml': ['flr', 'vrml', 'wrl', 'wrz', 'xaf', 'xof']
 //     }
 // }
-
 // const accepts = {
 //     image: ['image/jpeg', 'image/jpg', 'image/png', 'image/bmp'],
 //     txt: ['text/plain'],
@@ -155,24 +154,27 @@ import {Big} from './math'
 //     sound: ['audio/x-mpeg'],
 //     html: ['text/html']
 // }
-
-const FileSizeName = (size: number | string, {round=2, origin='B'}={}) => {
+const FileSizeName = (size, { round = 2, origin = 'B' } = {}) => {
     if (size) {
         try {
-            size = Number(size)
+            size = Number(size);
             if (1024 > size) {
-                return size + ' B'
-            } else if (1048576 > size) {
-                return Big(size).div(1024).round(round, 1) + ' KB'
-            } else if (1073741824 > size) {
-                return Big(size).div(1048576).round(round, 1) + ' MB'
-            } else {
-                return Big(size).div(1073741824).round(round, 1) + ' GB'
+                return size + ' B';
             }
-        } catch (e) {
-            return '-'
+            else if (1048576 > size) {
+                return Big(size).div(1024).round(round, 1) + ' KB';
+            }
+            else if (1073741824 > size) {
+                return Big(size).div(1048576).round(round, 1) + ' MB';
+            }
+            else {
+                return Big(size).div(1073741824).round(round, 1) + ' GB';
+            }
+        }
+        catch (e) {
+            return '-';
         }
     }
-    return '-'
-}
-export {FileSizeName}
+    return '-';
+};
+export { FileSizeName };

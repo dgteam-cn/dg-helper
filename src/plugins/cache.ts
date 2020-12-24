@@ -5,56 +5,56 @@
  * @author 2681137811<donguayx@qq.com>
  */
 
-declare var global: any;
-declare var window: any;
-declare var uni: any;
-declare var plus: any;
-declare var wx: any;
+// declare let global: any;
+declare const window: any;
+declare const uni: any;
+declare const plus: any;
+declare const wx: any;
 
 class Storage {
 
     // 根据当前环境自动获取缓存对象实例，并生成通用方法 [ get, set, remove, clean, info ]
     // 支持 浏览器、微信小程序、uniapp、html5+
     // 不支持 window、liunx 操作系统级别环境，请使用 mysql mongodb redis 等应用级模块替代
-    get Client(){
-        if(typeof window === 'object' && window.localStorage){
+    get Client() {
+        if (typeof window === 'object' && window.localStorage) {
             return {
-                mode: 'browser', handle: 'window', // browser 平台
+                mode: 'browser', handle: window, // browser 平台
                 get: (key: string) => {
                     try {
                         return JSON.parse(window.localStorage.getItem(key))
-                    } catch(err) {
+                    } catch (err) {
                         return window.localStorage.getItem(key)
                     }
                 },
-                set: (key: string, value: any) => window.localStorage.setItem(key,JSON.stringify(value)),
+                set: (key: string, value: any) => window.localStorage.setItem(key, JSON.stringify(value)),
                 remove: (key: string) => window.localStorage.removeItem(key),
                 clean: () => window.localStorage.clear(),
-                info: () => new Object() // 不支持
+                info: () => ({}) // 不支持则返回空对象
             }
-        }else if(typeof uni === 'object' && uni.getStorageSync){
+        } else if (typeof uni === 'object' && uni.getStorageSync) {
             return {
-                mode: 'uniapp', handle: 'uni', // uniapp 平台
+                mode: 'uniapp', handle: uni, // uniapp 平台
                 get: (key: string) => uni.getStorageSync(key),
-                set: (key: string, value: any) => uni.setStorageSync(key,value),
+                set: (key: string, value: any) => uni.setStorageSync(key, value),
                 remove: (key: string) => uni.removeStorageSync(key),
                 clean: () => uni.clearStorageSync(),
                 info: (): object => uni.getStorageInfoSync()
             }
-        }else if(typeof plus === 'object' && plus.storag){
+        } else if (typeof plus === 'object' && plus.storag) {
             return {
-                mode: 'html5+',handle: 'plus',  // H5+ 平台
+                mode: 'html5+', handle: plus,  // H5+ 平台
                 get: (key: string) => plus.storage.getItem(key),
-                set: (key: string, value: any) => plus.storage.setItem(key,value),
+                set: (key: string, value: any) => plus.storage.setItem(key, value),
                 remove: (key: string) => plus.storage.removeItem(key),
                 clean: () => plus.storage.clear(),
-                info: (): object => new Object() // 不支持
+                info: (): object => ({}) // 不支持则返回空对象
             }
-        }else if(typeof wx === 'object' && wx.getStorageSync){
+        } else if (typeof wx === 'object' && wx.getStorageSync) {
             return {
-                mode: 'wx', handle: 'wx', // 微信小程序平台
+                mode: 'wx', handle: wx, // 微信小程序平台
                 get: (key: string) => wx.getStorageSync(key),
-                set: (key: string, value: any) => wx.setStorageSync(key,value),
+                set: (key: string, value: any) => wx.setStorageSync(key, value),
                 remove: (key: string) => wx.removeStorageSync(key),
                 clean: () => wx.clearStorageSync(),
                 info: (): object => wx.getStorageInfoSync()
@@ -62,11 +62,11 @@ class Storage {
         }
         return {
             mode: undefined, handle: undefined, // 不支持的环境
-            get: (key: string) => undefined,
-            set: (key: string, value: any) => undefined,
-            remove: (key: string) => undefined,
+            get: () => undefined,
+            set: () => undefined,
+            remove: () => undefined,
             clean: () => undefined,
-            info: (): object => new Object()
+            info: (): object => ({}) // 不支持则返回空对象
         }
     }
 
@@ -76,35 +76,35 @@ class Storage {
      * @param value 缓存字段，会根据环境自动使用 JSON.stringify 序列化
      * @param timeout 缓存时间，若为数字格式则以秒为计算单位，字符串格式的末尾需要添加单位 如 '1d'=1天 '1h'=1小时 '1m'=1分钟 '1s'=1秒
      */
-    Cache(key: any, value?: any, timeout?: number | string){
-        if(key){
-            if(value === undefined && timeout === undefined){
+    Cache(key: any, value?: any, timeout?: number | string) {
+        if (key) {
+            if (value === undefined && timeout === undefined) {
                 return this.CacheGet(key)
-            }else if(value === null || timeout === 0){
+            } else if (value === null || timeout === 0) {
                 return this.CacheRemove(key)
-            }else{
-                return this.CacheSet(key,value,timeout)
+            } else {
+                return this.CacheSet(key, value, timeout)
             }
         }
     }
 
     // 获取缓存
-    CacheGet(key: any){
-        if(key === undefined){
-            console.log('cache key can not be blank.')
+    CacheGet(key: any) {
+        if (key === undefined) {
+            console.error('cache key can not be blank.')
             return undefined
-        }else if(typeof key !== 'string'){
+        } else if (typeof key !== 'string') {
             try {
                 key = JSON.stringify(key)
-            } catch(err) {
+            } catch (err) {
                 console.error('cache key is contrary to expectation.')
                 return undefined
             }
         }
-        const { Client: client } = this
+        const {Client: client} = this
         const cache: any = client.get(key)
         const expired: number | undefined | null = client.get(`${key}_timeout`)
-        if(expired && Date.now() > expired){
+        if (expired && Date.now() > expired) {
             client.remove(key)
             client.remove(`${key}_timeout`)
             return null
@@ -113,54 +113,54 @@ class Storage {
     }
 
     // 存储缓存
-    CacheSet(key: any, val: any, timeout?: string | number){
-        if(key === undefined){
+    CacheSet(key: any, val: any, timeout?: string | number) {
+        if (key === undefined) {
             console.error('cache key can not be blank.')
             return undefined
-        }else if(typeof key !== 'string'){
+        } else if (typeof key !== 'string') {
             try {
                 key = JSON.stringify(key)
-            } catch(err) {
+            } catch (err) {
                 console.error('cache key is contrary to expectation.')
                 return undefined
             }
         }
-        const { Client: client } = this
-        if(timeout){
+        const {Client: client} = this
+        if (timeout) {
             let throughSecond = 0
-            if(typeof timeout === 'number'){
+            if (typeof timeout === 'number') {
                 throughSecond = timeout
-            }else if(typeof timeout === 'string'){
-                const duration: number = parseInt(timeout,10)
+            } else if (typeof timeout === 'string') {
+                const duration: number = parseInt(timeout, 10)
                 const unit: string = timeout.charAt(timeout.length-1)
-                if(duration && duration > 0){
-                    if(unit === 'd' || unit === 'day' || unit === 'D'){
+                if (duration && duration > 0) {
+                    if (unit === 'd' || unit === 'day' || unit === 'D') {
                         throughSecond = duration * 60 * 60 * 24
-                    }else if(unit === 'h' || unit === 'hour' || unit === 'H'){
+                    } else if (unit === 'h' || unit === 'hour' || unit === 'H') {
                         throughSecond = duration * 60 * 60
-                    }else if(unit === 'm' || unit === 'minute' || unit === 'M'){
+                    } else if (unit === 'm' || unit === 'minute' || unit === 'M') {
                         throughSecond = duration * 60
-                    }else{
+                    } else {
                         throughSecond = duration
                     }
                 }
             }
-            if(throughSecond){
+            if (throughSecond) {
                 const expired: number = throughSecond * 1000 + Date.now()
-                client.set(`${key}_timeout`,expired)
+                client.set(`${key}_timeout`, expired)
             }
         }
-        return client.set(key,val)
+        return client.set(key, val)
     }
 
-    CacheRemove(key: any){
-        if(key === undefined){
-            console.log('cache key can not be blank.')
+    CacheRemove(key: any) {
+        if (key === undefined) {
+            console.error('cache key can not be blank.')
             return undefined
-        }else if(typeof key !== 'string'){
+        } else if (typeof key !== 'string') {
             try {
                 key = JSON.stringify(key)
-            } catch(err) {
+            } catch (err) {
                 console.error('cache key is contrary to expectation.')
                 return undefined
             }
@@ -169,24 +169,24 @@ class Storage {
     }
 
     // 清除缓存
-    CacheClean(){
+    CacheClean() {
         return this.Client.clean()
     }
 
     // 获取当前缓存信息
-    CacheInfo(){
-        const { mode, handle, info } = this.Client
-        return new Object( { mode, handle, ...info() })
+    CacheInfo() {
+        const {mode, handle, info} = this.Client
+        return {mode, handle, ...info()}
     }
 }
 const Store = new Storage()
 const Client = Store.Client
-const Cache = (key: any, value?: any, timeout?: number | string) => Store.Cache(key,value,timeout)
+const Cache = (key: any, value?: any, timeout?: number | string) => Store.Cache(key, value, timeout)
 const CacheGet = (key: any) => Store.CacheGet(key)
-const CacheSet = (key: any, value: any, timeout?: string | number) => Store.CacheSet(key,value,timeout)
+const CacheSet = (key: any, value: any, timeout?: string | number) => Store.CacheSet(key, value, timeout)
 const CacheRemove = (key: any) => Store.CacheRemove(key)
-const CacheClean = (key: any) => Store.CacheClean()
-const CacheInfo = (key: any) => Store.CacheInfo()
+const CacheClean = () => Store.CacheClean()
+const CacheInfo = () => Store.CacheInfo()
 
 export {
     Client, Cache,

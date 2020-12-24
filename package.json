@@ -1,31 +1,28 @@
 {
   "name": "@dgteam/helper",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "description": "",
-  "main": "./dist/index.js",
+  "author": "2681137811 <donguayx@qq.com>",
+  "main": "/dist/index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.config.js",
-    "build": "cross-env NODE_ENV=production webpack --config ./build/webpack.config.js"
+    "start": "tsc -w",
+    "build": "tsc",
+    "reset": "rimraf node_modules"
   },
-  "author": "2681137811",
   "license": "MIT",
   "dependencies": {
-    "@types/big.js": "^4.0.5",
-    "@types/js-base64": "^2.3.1",
-    "@types/js-md5": "^0.4.2",
     "big.js": "^5.2.2",
     "js-base64": "^2.5.2",
     "js-md5": "^0.7.3"
   },
   "devDependencies": {
-    "typescript": "^3.9.5",
-    "clean-webpack-plugin": "^3.0.0",
-    "cross-env": "^7.0.2",
-    "html-webpack-plugin": "^4.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.11.0",
+    "@typescript-eslint/parser": "^4.11.0",
+    "@types/big.js": "^4.0.5",
+    "@types/js-base64": "^2.3.1",
+    "@types/js-md5": "^0.4.2",
+    "eslint": "^7.16.0",
     "ts-loader": "^7.0.5",
-    "tslint": "^6.1.2",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "typescript": "^4.0.0"
   }
 }

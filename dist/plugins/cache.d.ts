@@ -5,25 +5,20 @@
  */
 declare const Client: {
     mode: string;
-    handle: string;
+    handle: any;
     get: (key: string) => any;
     set: (key: string, value: any) => any;
     remove: (key: string) => any;
     clean: () => any;
-    info: () => Object;
-} | {
-    mode: undefined;
-    handle: undefined;
-    get: (key: string) => undefined;
-    set: (key: string, value: any) => undefined;
-    remove: (key: string) => undefined;
-    clean: () => undefined;
-    info: () => object;
+    info: () => {};
 };
-declare const Cache: (key: any, value?: any, timeout?: string | number | undefined) => any;
+declare const Cache: (key: any, value?: any, timeout?: number | string) => any;
 declare const CacheGet: (key: any) => any;
-declare const CacheSet: (key: any, value: any, timeout?: string | number | undefined) => any;
+declare const CacheSet: (key: any, value: any, timeout?: string | number) => any;
 declare const CacheRemove: (key: any) => any;
-declare const CacheClean: (key: any) => any;
-declare const CacheInfo: (key: any) => Object;
+declare const CacheClean: () => any;
+declare const CacheInfo: () => {
+    mode: string;
+    handle: any;
+};
 export { Client, Cache, CacheGet, CacheSet, CacheRemove, CacheClean, CacheInfo };

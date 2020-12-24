@@ -5,4 +5,4 @@ declare const _default: {
     Base64EncodeURL: (str: string | number) => string;
     Base64Decode: (str: string | number) => string;
 };
-export = _default;
+export default _default;

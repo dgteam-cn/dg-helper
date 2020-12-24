@@ -1,26 +1,4 @@
-## install 安装
-```shell
-npm i @dgteam/helper --save
-# or
-yarn add @dgteam/helper --save
-```
-
-## use 使用
-```javascript
-improt helper form '@dgteam/helper' // in browser
-// const Base = require('@dgteam/helper/dis/index.js) // in nodejs
-```
-
-## test 测试
-```shell
-# dev
-npm start
-
-# JS
-improt * as Bass form '@dgteam/helper/dist/index.js
-improt * as Hash form '@dgteam/helper/dist/hash.js
-
-# TS
-improt * as Bass form '@dgteam/helper/src/index.ts
-improt * as Hash form '@dgteam/helper/src/hash.ts
-```
+## 0.2.3
+1、typescript 环境变更，去掉 webpack 层，导出 es6 模块
+2、[BUG] 修复 math/Price 数值为复数时，separate 字段分割错误
+3、time/Timestamp 支持传入字符串

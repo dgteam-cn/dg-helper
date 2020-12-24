@@ -1,5 +1,5 @@
 declare const FileSizeName: (size: number | string, { round, origin }?: {
-    round?: number | undefined;
-    origin?: string | undefined;
+    round?: number;
+    origin?: string;
 }) => string;
 export { FileSizeName };
