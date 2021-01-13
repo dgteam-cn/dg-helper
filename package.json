@@ -1,12 +1,13 @@
 {
   "name": "@dgteam/helper",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "description": "",
   "author": "2681137811 <donguayx@qq.com>",
-  "main": "/dist/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "tsc -w",
     "build": "tsc",
+    "push": "tsc && npm config set registry=http://registry.npmjs.org && npm publish --access public",
     "reset": "rimraf node_modules"
   },
   "license": "MIT",

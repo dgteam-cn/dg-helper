@@ -9,10 +9,13 @@ const Time = (time = new Date(), format = "yyyy-MM-dd hh:mm:ss") => {
         time = new Date(0);
     }
     else if (typeof time === 'string') {
-        if (time === '' || time === '0000-00-00' || time === '0000-00-00 00:00:00' || time === '0000-00-00 00:00') {
+        if (~['', '0', '0000-00-00', '0000-00-00 00:00:00', '0000-00-00 00:00'].indexOf(time)) { // 无效时间
             time = new Date(0);
         }
-        else {
+        else if (time[10] === 'T' && time[time.length - 1] === 'Z') { // UTC 时间，可以直接序列化
+            time = new Date(time);
+        }
+        else { // GMT 时间和 DateTime 时间处理方式
             time = new Date(time.replace(/-/g, "/")); // 为了支持 Safari 浏览器
         }
     }
