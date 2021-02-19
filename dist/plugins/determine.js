@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.IsArray = exports.IsObject = exports.IsEmpty = exports.IsInt = exports.Is = void 0;
 /**
  *  变量判定
  * @param type 判定类型 [ int, object, array, empty, formdata ]
@@ -49,8 +52,12 @@ const Is = (type = "object", sample, { strict = true } = {}) => {
             return false;
     }
 };
+exports.Is = Is;
 const IsInt = (sample, opt) => Is('int', sample, opt);
+exports.IsInt = IsInt;
 const IsEmpty = (sample, opt) => Is('empty', sample, opt);
+exports.IsEmpty = IsEmpty;
 const IsObject = (sample, opt) => Is('object', sample, opt);
+exports.IsObject = IsObject;
 const IsArray = (sample, opt) => Is('array', sample, opt);
-export { Is, IsInt, IsEmpty, IsObject, IsArray };
+exports.IsArray = IsArray;

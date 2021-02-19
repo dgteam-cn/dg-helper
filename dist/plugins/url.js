@@ -1,3 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UrlParse = void 0;
+// FIXME 需要增加 hashParams 解析
+// FIXME url 没有经过 urldecode 反编译，导致中文字符乱码
+// FIXME 当 params 中的字段为数组时候，没有能正确解析
 const UrlParse = (href = "") => {
     if (typeof href !== "string") {
         throw new Error("Url 'href' need string.");
@@ -65,4 +71,4 @@ const UrlParse = (href = "") => {
         throw new Error('url 不合法');
     }
 };
-export { UrlParse };
+exports.UrlParse = UrlParse;

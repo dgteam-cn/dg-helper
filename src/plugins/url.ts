@@ -11,6 +11,11 @@ export interface urlObject {
     paths: Array<string>,
     params: object // 参数组
 }
+
+// FIXME 需要增加 hashParams 解析
+// FIXME url 没有经过 urldecode 反编译，导致中文字符乱码
+// FIXME 当 params 中的字段为数组时候，没有能正确解析
+
 const UrlParse = (href: string = ""): urlObject => {
     if (typeof href !== "string") {
         throw new Error("Url 'href' need string.")

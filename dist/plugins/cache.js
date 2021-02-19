@@ -1,8 +1,11 @@
+"use strict";
 /**
  * localStorage 缓存相关
  * @date 2020-05-25
  * @author 2681137811<donguayx@qq.com>
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CacheInfo = exports.CacheClean = exports.CacheRemove = exports.CacheSet = exports.CacheGet = exports.Cache = exports.Client = void 0;
 class Storage {
     // 根据当前环境自动获取缓存对象实例，并生成通用方法 [ get, set, remove, clean, info ]
     // 支持 浏览器、微信小程序、uniapp、html5+
@@ -182,10 +185,16 @@ class Storage {
 }
 const Store = new Storage();
 const Client = Store.Client;
+exports.Client = Client;
 const Cache = (key, value, timeout) => Store.Cache(key, value, timeout);
+exports.Cache = Cache;
 const CacheGet = (key) => Store.CacheGet(key);
+exports.CacheGet = CacheGet;
 const CacheSet = (key, value, timeout) => Store.CacheSet(key, value, timeout);
+exports.CacheSet = CacheSet;
 const CacheRemove = (key) => Store.CacheRemove(key);
+exports.CacheRemove = CacheRemove;
 const CacheClean = () => Store.CacheClean();
+exports.CacheClean = CacheClean;
 const CacheInfo = () => Store.CacheInfo();
-export { Client, Cache, CacheGet, CacheSet, CacheRemove, CacheClean, CacheInfo };
+exports.CacheInfo = CacheInfo;

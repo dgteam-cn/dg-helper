@@ -4,7 +4,7 @@
         /* Basic Options */
         // ES5 = ES2015; ES6 = ES2016; ES7 = ES2017; ES8 = ES2018
         "target": "ES2016", // 编译后的目标版本 [ 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018', 'ESNEXT' ]
-        "module": "es6", // 应用的模块标准 [ 'none', 'commonjs', 'amd', 'system', 'umd', 'es6', 'es2015', 'es2020', 'esnext' ]
+        "module": "commonjs", // 应用的模块标准 [ 'none', 'commonjs', 'amd', 'system', 'umd', 'es6', 'es2015', 'es2020', 'esnext' ]
         "lib": ["es6", "dom"], // 指定包含在编译中的库文件 
         "allowJs": true, // 是否编译 JS 文件 - 默认 false
         "checkJs": false, // 是否检查 JS 文件的错误 - 默认 false
@@ -16,7 +16,7 @@
         "outDir": "./dist",
 
         /* 将输出结构重定向到目录 */
-        // "rootDir": "src/**/*",                /* 指定输入文件的根目录。用于使用--outDir控制输出目录结构。 */
+        // "rootDir": "src/**/*",                 /* 指定输入文件的根目录。用于使用--outDir控制输出目录结构。 */
         // "composite": true,                     /* 启用项目编译 */
         // "removeComments": true, // 编译后是否删除注释
         // "noEmit": true,                        /* Do not emit outputs. */
@@ -42,7 +42,7 @@
         // "noFallthroughCasesInSwitch": true, // 检查所有 switech 语句中的 case 是否有使用 break 跳出
 
         /* Module Resolution Options */
-        "moduleResolution": "node",            /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+        "moduleResolution": "node",               /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
         // "baseUrl": "./",                       /* Base directory to resolve non-absolute module names. */
         // "paths": {},                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
         // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */

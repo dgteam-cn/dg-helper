@@ -1,12 +1,50 @@
-import { Time, Timestamp } from './plugins/time';
-import { Is, IsInt, IsEmpty, IsObject, IsArray } from './plugins/determine';
-import { Client as CacheClient, Cache, CacheGet, CacheSet, CacheRemove, CacheClean, CacheInfo } from './plugins/cache';
-import { Big, Price, PriceUppercase, PrefixZero, Uuid } from './plugins/math';
-import { UrlParse } from './plugins/url';
-export default {
-    // （浅拷贝）继承一个对象
-    Extend(old, ...obj) {
-        return Object.assign(old, ...obj);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const time_1 = require("./plugins/time");
+const determine_1 = require("./plugins/determine");
+const cache_1 = require("./plugins/cache");
+const math_1 = require("./plugins/math");
+const url_1 = require("./plugins/url");
+const pkg = require('../package.json');
+exports.default = {
+    version: pkg.version,
+    // // （浅拷贝）继承一个对象
+    // Extend(old: any, ...obj: any): object {
+    //     return Object.assign(old, ...obj) // 这个方法没有办法深拷贝
+    // },
+    Extend(target = {}, ...args) {
+        let i = 0;
+        const length = args.length;
+        let options;
+        let name;
+        let src;
+        let copy;
+        if (!target) {
+            target = this.isArray(args[0]) ? [] : {};
+        }
+        for (; i < length; i++) {
+            options = args[i];
+            if (!options) {
+                continue;
+            }
+            for (name in options) {
+                src = target[name];
+                copy = options[name];
+                if (src && src === copy) {
+                    continue;
+                }
+                if (this.isArray(copy)) {
+                    target[name] = this.extend([], copy);
+                }
+                else if (this.isObject(copy)) {
+                    target[name] = this.extend(src && this.isObject(src) ? src : {}, copy);
+                }
+                else {
+                    target[name] = copy;
+                }
+            }
+        }
+        return target;
     },
     // （深拷贝）复制一个对象或数组 - 无法拷贝 Function
     Origin(sample) {
@@ -87,9 +125,9 @@ export default {
         return defLabel;
     },
     // 其他方法
-    Big, Price, PriceUppercase, PrefixZero, Uuid,
-    CacheClient, Cache, CacheGet, CacheSet, CacheRemove, CacheClean, CacheInfo,
-    Time, Timestamp,
-    Is, IsInt, IsEmpty, IsObject, IsArray,
-    UrlParse
+    Big: math_1.Big, Price: math_1.Price, PriceUppercase: math_1.PriceUppercase, PrefixZero: math_1.PrefixZero, Uuid: math_1.Uuid,
+    CacheClient: cache_1.Client, Cache: cache_1.Cache, CacheGet: cache_1.CacheGet, CacheSet: cache_1.CacheSet, CacheRemove: cache_1.CacheRemove, CacheClean: cache_1.CacheClean, CacheInfo: cache_1.CacheInfo,
+    Time: time_1.Time, Timestamp: time_1.Timestamp,
+    Is: determine_1.Is, IsInt: determine_1.IsInt, IsEmpty: determine_1.IsEmpty, IsObject: determine_1.IsObject, IsArray: determine_1.IsArray,
+    UrlParse: url_1.UrlParse
 };

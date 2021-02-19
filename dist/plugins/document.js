@@ -1,4 +1,7 @@
-import { Big } from './math';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.FileSizeName = void 0;
+const math_1 = require("./math");
 // const mineTypeMap = {
 //     'application': {
 //         'envoy': 'evy',
@@ -162,13 +165,13 @@ const FileSizeName = (size, { round = 2, origin = 'B' } = {}) => {
                 return size + ' B';
             }
             else if (1048576 > size) {
-                return Big(size).div(1024).round(round, 1) + ' KB';
+                return math_1.Big(size).div(1024).round(round, 1) + ' KB';
             }
             else if (1073741824 > size) {
-                return Big(size).div(1048576).round(round, 1) + ' MB';
+                return math_1.Big(size).div(1048576).round(round, 1) + ' MB';
             }
             else {
-                return Big(size).div(1073741824).round(round, 1) + ' GB';
+                return math_1.Big(size).div(1073741824).round(round, 1) + ' GB';
             }
         }
         catch (e) {
@@ -177,4 +180,4 @@ const FileSizeName = (size, { round = 2, origin = 'B' } = {}) => {
     }
     return '-';
 };
-export { FileSizeName };
+exports.FileSizeName = FileSizeName;

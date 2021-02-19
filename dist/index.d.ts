@@ -5,7 +5,8 @@ export interface enumOptions {
     defLabel?: string;
 }
 declare const _default: {
-    Extend(old: any, ...obj: any): object;
+    version: any;
+    Extend(target?: any, ...args: any): object;
     Origin(sample: any): any;
     Log(...args: any[]): void;
     /**

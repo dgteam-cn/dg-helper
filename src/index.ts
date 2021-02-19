@@ -3,6 +3,7 @@ import {Is, IsInt, IsEmpty, IsObject, IsArray} from './plugins/determine'
 import {Client as CacheClient, Cache, CacheGet, CacheSet, CacheRemove, CacheClean, CacheInfo} from './plugins/cache'
 import {Big, Price, PriceUppercase, PrefixZero, Uuid} from './plugins/math'
 import {UrlParse} from './plugins/url'
+const pkg: any = require('../package.json')
 
 export interface enumOptions {
     name?: string | Array<string>,
@@ -13,9 +14,44 @@ export interface enumOptions {
 
 export default {
 
-    // （浅拷贝）继承一个对象
-    Extend(old: any, ...obj: any): object {
-        return Object.assign(old, ...obj)
+    version: pkg.version,
+
+    // // （浅拷贝）继承一个对象
+    // Extend(old: any, ...obj: any): object {
+    //     return Object.assign(old, ...obj) // 这个方法没有办法深拷贝
+    // },
+
+    Extend(target: any = {}, ...args: any): object {
+        let i = 0;
+        const length = args.length;
+        let options: any;
+        let name: string;
+        let src: any;
+        let copy: any;
+        if (!target) {
+            target = this.isArray(args[0]) ? [] : {};
+        }
+        for (; i < length; i++) {
+            options = args[i];
+            if (!options) {
+                continue;
+            }
+            for (name in options) {
+                src = target[name];
+                copy = options[name];
+                if (src && src === copy) {
+                    continue;
+                }
+                if (this.isArray(copy)) {
+                    target[name] = this.extend([], copy);
+                } else if (this.isObject(copy)) {
+                    target[name] = this.extend(src && this.isObject(src) ? src : {}, copy);
+                } else {
+                    target[name] = copy;
+                }
+            }
+        }
+        return target
     },
 
     // （深拷贝）复制一个对象或数组 - 无法拷贝 Function
