@@ -1,12 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Uuid = exports.PrefixZero = exports.PriceUppercase = exports.Price = exports.Big = void 0;
-const big_js_1 = __importDefault(require("big.js"));
+const big = require('big.js');
 /**
- * @name 科学计算
+ * 科学计算
  * @description 常用： 加-add()  减-sub()  乘-mul()  除-div
  *              科学： 模-mod() 绝对值-abs() N次方-pow(n) 平方根-sqrt()
  *              保留小数-round(位数，模式)：
@@ -17,12 +13,11 @@ const big_js_1 = __importDefault(require("big.js"));
  *              返回结果： 返回数值-toNumber()  返回字符串-toString()  返回浮点型字符串，不足小数自动补0-toFixed(位数)
  *              例: Big(5).div(3).round(2,1).toNumber() // 5 除 3 四舍五入保留两位小数，返回数字类型结果
  */
-big_js_1.default.prototype.toNumber = function () {
+big.prototype.toNumber = function () {
     return Number(this);
 };
-const Big = (opt) => new big_js_1.default(opt);
-exports.Big = Big;
-const Price = (num, { float = 2, mode = 0, force = false, separate = 3, format = 'string', unit = '' } = {}) => {
+const Big = (opt) => new big(opt);
+const price = (num, { float = 2, mode = 0, force = false, separate = 3, format = 'string', unit = '' } = {}) => {
     try {
         if (!num && num !== 0)
             return '';
@@ -100,13 +95,12 @@ const Price = (num, { float = 2, mode = 0, force = false, separate = 3, format =
         return num;
     }
 };
-exports.Price = Price;
 /**
- * @name 将数字价格转换为中文大写价格
+ * 将数字价格转换为中文大写价格
  * @param price [number | string] 价格
  * @return string
  */
-const PriceUppercase = (price) => {
+const priceUppercase = (price) => {
     const fraction = ['角', '分'];
     const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
     const unit = [['元', '万', '亿'], ['', '拾', '佰', '仟']];
@@ -137,26 +131,25 @@ const PriceUppercase = (price) => {
         return "";
     }
 };
-exports.PriceUppercase = PriceUppercase;
 /**
- * @name 强制浮点位数，不足的强制补 0
+ * 强制浮点位数（前缀），不足的强制补 0
  * @param num [number | string] 数值
  * @return string
+ * @description 例如 prefixZero(100, 6) 则返回 000100
  */
-const PrefixZero = (num, n) => {
+const prefixZero = (num, n) => {
     if (typeof num === 'number')
         num = num.toString();
     while (n && num.length < n)
         num = '0' + num;
     return num;
 };
-exports.PrefixZero = PrefixZero;
 /**
- * @name 随机生成一段字符串
+ * 随机生成一段字符串
  * @param len [number] 长度
  * @return string
  */
-const Uuid = (len, radix = 10) => {
+const uuid = (len, radix = 10) => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
     const uuid = [];
     let i;
@@ -178,4 +171,4 @@ const Uuid = (len, radix = 10) => {
     }
     return uuid.join('');
 };
-exports.Uuid = Uuid;
+module.exports = { big: Big, price, priceUppercase, prefixZero, uuid };

@@ -1,5 +1,5 @@
 /**
- * @name URL 解析器
+ * URL 解析器
  * @param href string 需要解析的地址
  * @return object: urlObject
  */
@@ -17,5 +17,3 @@ export interface urlObject {
     paths: Array<string>;
     params: object;
 }
-declare const UrlParse: (href?: string) => urlObject;
-export { UrlParse };

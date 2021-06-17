@@ -1,7 +1,5 @@
-import big from 'big.js';
-declare const Big: (opt: any) => big;
 /**
- * @name 将数字转换为可以显示的格式（价格模式）
+ * 将数字转换为可以显示的格式（价格模式）
  * @param opt.float [number] 保留几位小数
  * @param opt.mode [number] 小数（尾数）取整方式，见下方 floatdir 对象具体解释
  * @param opt.force [number] 若为真，小数不足 float 字段位数时，将会强制补 0
@@ -18,23 +16,3 @@ export interface priceOptions {
     format?: string;
     unit?: string;
 }
-declare const Price: (num: string | number, { float, mode, force, separate, format, unit }?: priceOptions) => number | string | string[];
-/**
- * @name 将数字价格转换为中文大写价格
- * @param price [number | string] 价格
- * @return string
- */
-declare const PriceUppercase: (price: number | string) => string;
-/**
- * @name 强制浮点位数，不足的强制补 0
- * @param num [number | string] 数值
- * @return string
- */
-declare const PrefixZero: (num: number | string, n: number) => string;
-/**
- * @name 随机生成一段字符串
- * @param len [number] 长度
- * @return string
- */
-declare const Uuid: (len: number, radix?: number) => string;
-export { Big, Price, PriceUppercase, PrefixZero, Uuid };

@@ -1,13 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Timestamp = exports.Time = void 0;
 /**
- * @name 把时间转换成 'yyyy-MM-dd hh:mm:ss' 格式
+ * 把时间转换成 'yyyy-MM-dd hh:mm:ss' 格式
  * @param date [string | int | Date | undefined]
  * @param format 参考 'yyyy-MM-dd hh:mm:ss'
  * @return string
  */
-const Time = (time = new Date(), format = "yyyy-MM-dd hh:mm:ss") => {
+const time = (time = new Date(), format = "yyyy-MM-dd hh:mm:ss") => {
     if (time === null || time === undefined) {
         time = new Date(0);
     }
@@ -49,14 +46,15 @@ const Time = (time = new Date(), format = "yyyy-MM-dd hh:mm:ss") => {
     }
     return format;
 };
-exports.Time = Time;
 /**
- * @name 获取时间戳（单位秒）
+ * 获取时间戳（单位秒）
  * @param date [number | Date]
  * @return string
  */
-const Timestamp = (date) => {
+const timestamp = (date) => {
     const time = date ? new Date(date) : new Date();
     return Date.parse(time.toString()) / 1000;
 };
-exports.Timestamp = Timestamp;
+module.exports = {
+    time, timestamp
+};

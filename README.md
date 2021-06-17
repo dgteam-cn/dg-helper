@@ -2,6 +2,7 @@
 - 把模块完全替换成 node 的 commonjs 规范，并在 node-win node-linux webpack vite uni 平台进行测试
 - 把 Extend 默认的 Object.assign 方法换成深拷贝的方法
 - 把所有大写方法换成小写
+- [重要] 暂时剔除 URL 对象
 
 =================================
 

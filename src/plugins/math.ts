@@ -1,7 +1,7 @@
-import big from 'big.js'
+const big = require('big.js')
 
 /**
- * @name 科学计算
+ * 科学计算
  * @description 常用： 加-add()  减-sub()  乘-mul()  除-div
  *              科学： 模-mod() 绝对值-abs() N次方-pow(n) 平方根-sqrt()
  *              保留小数-round(位数，模式)：
@@ -19,7 +19,7 @@ const Big = (opt: any) => new big(opt)
 
 
 /**
- * @name 将数字转换为可以显示的格式（价格模式）
+ * 将数字转换为可以显示的格式（价格模式）
  * @param opt.float [number] 保留几位小数
  * @param opt.mode [number] 小数（尾数）取整方式，见下方 floatdir 对象具体解释
  * @param opt.force [number] 若为真，小数不足 float 字段位数时，将会强制补 0
@@ -36,7 +36,7 @@ export interface priceOptions {
     format?: string,
     unit?: string,
 }
-const Price = (num: string | number, {float = 2, mode = 0, force = false, separate = 3, format = 'string', unit = ''}: priceOptions = {}): number | string | string[] => {
+const price = (num: string | number, {float = 2, mode = 0, force = false, separate = 3, format = 'string', unit = ''}: priceOptions = {}): number | string | string[] => {
     try {
         if (!num && num !== 0) return '';
         if (typeof mode === 'string') {
@@ -110,11 +110,11 @@ const Price = (num: string | number, {float = 2, mode = 0, force = false, separa
 
 
 /**
- * @name 将数字价格转换为中文大写价格
+ * 将数字价格转换为中文大写价格
  * @param price [number | string] 价格
  * @return string
  */
-const PriceUppercase = (price: number | string): string => {
+const priceUppercase = (price: number | string): string => {
     const fraction = ['角', '分']
     const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖']
     const unit = [['元', '万', '亿'], ['', '拾', '佰', '仟']]
@@ -147,22 +147,23 @@ const PriceUppercase = (price: number | string): string => {
 
 
 /**
- * @name 强制浮点位数，不足的强制补 0
+ * 强制浮点位数（前缀），不足的强制补 0
  * @param num [number | string] 数值
  * @return string
+ * @description 例如 prefixZero(100, 6) 则返回 000100
  */
-const PrefixZero = (num: number | string, n: number): string => {
+const prefixZero = (num: number | string, n: number): string => {
     if (typeof num === 'number') num = num.toString()
     while (n && num.length < n) num = '0' + num
     return num
 }
 
 /**
- * @name 随机生成一段字符串
+ * 随机生成一段字符串
  * @param len [number] 长度
  * @return string
  */
-const Uuid = (len: number, radix = 10): string => {
+const uuid = (len: number, radix = 10): string => {
     const chars: string[] = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
     const uuid: string[] = []
     let i;
@@ -182,4 +183,4 @@ const Uuid = (len: number, radix = 10): string => {
     }
     return uuid.join('')
 }
-export {Big, Price, PriceUppercase, PrefixZero, Uuid}
+module.exports = {big: Big, price, priceUppercase, prefixZero, uuid}

@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.FileSizeName = void 0;
-const math_1 = require("./math");
+const big = require('big.js');
 // const mineTypeMap = {
 //     'application': {
 //         'envoy': 'evy',
@@ -157,7 +154,7 @@ const math_1 = require("./math");
 //     sound: ['audio/x-mpeg'],
 //     html: ['text/html']
 // }
-const FileSizeName = (size, { round = 2, origin = 'B' } = {}) => {
+const fileSizeName = (size, { round = 2 } = {}) => {
     if (size) {
         try {
             size = Number(size);
@@ -165,13 +162,13 @@ const FileSizeName = (size, { round = 2, origin = 'B' } = {}) => {
                 return size + ' B';
             }
             else if (1048576 > size) {
-                return math_1.Big(size).div(1024).round(round, 1) + ' KB';
+                return big(size).div(1024).round(round, 1) + ' KB';
             }
             else if (1073741824 > size) {
-                return math_1.Big(size).div(1048576).round(round, 1) + ' MB';
+                return big(size).div(1048576).round(round, 1) + ' MB';
             }
             else {
-                return math_1.Big(size).div(1073741824).round(round, 1) + ' GB';
+                return big(size).div(1073741824).round(round, 1) + ' GB';
             }
         }
         catch (e) {
@@ -180,4 +177,4 @@ const FileSizeName = (size, { round = 2, origin = 'B' } = {}) => {
     }
     return '-';
 };
-exports.FileSizeName = FileSizeName;
+module.exports = { fileSizeName };

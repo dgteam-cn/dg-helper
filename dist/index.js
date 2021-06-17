@@ -1,18 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const time_1 = require("./plugins/time");
-const determine_1 = require("./plugins/determine");
-const cache_1 = require("./plugins/cache");
-const math_1 = require("./plugins/math");
-const url_1 = require("./plugins/url");
+// import {Time, Timestamp} from './plugins/time'
+// import {Is, IsInt, IsEmpty, IsObject, IsArray} from './plugins/determine'
+// import {Client as CacheClient, Cache, CacheGet, CacheSet, CacheRemove, CacheClean, CacheInfo} from './plugins/cache'
+// import {Big, Price, PriceUppercase, PrefixZero, Uuid} from './plugins/math'
+// import {UrlParse} from './plugins/url'
+const { time, timestamp } = require('./plugins/time');
+const { is, isInt, isEmpty, isObject, isArray } = require('./plugins/determine');
+const { client: cacheClient, cache, cacheGet, cacheSet, cacheRemove, cacheClean, cacheInfo } = require('./plugins/cache');
+const { big, price, priceUppercase, prefixZero, uuid } = require('./plugins/math');
+const { urlParse } = require('./plugins/url');
 const pkg = require('../package.json');
-exports.default = {
+const helper = {
     version: pkg.version,
     // // （浅拷贝）继承一个对象
     // Extend(old: any, ...obj: any): object {
     //     return Object.assign(old, ...obj) // 这个方法没有办法深拷贝
     // },
-    Extend(target = {}, ...args) {
+    extend(target = {}, ...args) {
         let i = 0;
         const length = args.length;
         let options;
@@ -20,7 +25,7 @@ exports.default = {
         let src;
         let copy;
         if (!target) {
-            target = this.isArray(args[0]) ? [] : {};
+            target = isArray(args[0]) ? [] : {};
         }
         for (; i < length; i++) {
             options = args[i];
@@ -33,11 +38,11 @@ exports.default = {
                 if (src && src === copy) {
                     continue;
                 }
-                if (this.isArray(copy)) {
+                if (isArray(copy)) {
                     target[name] = this.extend([], copy);
                 }
-                else if (this.isObject(copy)) {
-                    target[name] = this.extend(src && this.isObject(src) ? src : {}, copy);
+                else if (isObject(copy)) {
+                    target[name] = this.extend(src && isObject(src) ? src : {}, copy);
                 }
                 else {
                     target[name] = copy;
@@ -47,7 +52,7 @@ exports.default = {
         return target;
     },
     // （深拷贝）复制一个对象或数组 - 无法拷贝 Function
-    Origin(sample) {
+    origin(sample) {
         try {
             if (sample === undefined || sample === null || Number.isNaN(sample))
                 return sample;
@@ -60,7 +65,7 @@ exports.default = {
         }
     },
     // 打印数组
-    Log(...args) {
+    log(...args) {
         // eslint-disable-next-line no-console
         if (args.length > 0 && typeof console.group !== undefined) {
             // eslint-disable-next-line no-console
@@ -89,7 +94,7 @@ exports.default = {
      *              item：数据源对象 | key: 待枚举名   value: 待枚举值
      * @return {string}
      */
-    Enum(list = [], fun = new Function(), options = {}) {
+    enum(list = [], fun = new Function(), options = {}) {
         if (typeof options === 'string') {
             options = { defLabel: options };
         }
@@ -125,9 +130,10 @@ exports.default = {
         return defLabel;
     },
     // 其他方法
-    Big: math_1.Big, Price: math_1.Price, PriceUppercase: math_1.PriceUppercase, PrefixZero: math_1.PrefixZero, Uuid: math_1.Uuid,
-    CacheClient: cache_1.Client, Cache: cache_1.Cache, CacheGet: cache_1.CacheGet, CacheSet: cache_1.CacheSet, CacheRemove: cache_1.CacheRemove, CacheClean: cache_1.CacheClean, CacheInfo: cache_1.CacheInfo,
-    Time: time_1.Time, Timestamp: time_1.Timestamp,
-    Is: determine_1.Is, IsInt: determine_1.IsInt, IsEmpty: determine_1.IsEmpty, IsObject: determine_1.IsObject, IsArray: determine_1.IsArray,
-    UrlParse: url_1.UrlParse
+    big, price, priceUppercase, prefixZero, uuid,
+    cacheClient, cache, cacheGet, cacheSet, cacheRemove, cacheClean, cacheInfo,
+    time, timestamp,
+    is, isInt, isEmpty, isObject, isArray,
+    urlParse
 };
+module.exports = helper;

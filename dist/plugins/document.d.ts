@@ -1,5 +1,4 @@
-declare const FileSizeName: (size: number | string, { round, origin }?: {
+declare const big: any;
+declare const fileSizeName: (size: number | string, { round }?: {
     round?: number;
-    origin?: string;
 }) => string;
-export { FileSizeName };

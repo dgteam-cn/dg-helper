@@ -1,13 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.IsArray = exports.IsObject = exports.IsEmpty = exports.IsInt = exports.Is = void 0;
 /**
  *  变量判定
  * @param type 判定类型 [ int, object, array, empty, formdata ]
  * @param sample 判定样本
  * @param strict 是否使用严格模式，如果为 false 可能会降低判定精度
  */
-const Is = (type = "object", sample, { strict = true } = {}) => {
+const is = (type = "object", sample, { strict = true } = {}) => {
     switch (type.toLocaleLowerCase()) {
         case 'int': {
             if (sample % 1 === 0) {
@@ -52,12 +49,8 @@ const Is = (type = "object", sample, { strict = true } = {}) => {
             return false;
     }
 };
-exports.Is = Is;
-const IsInt = (sample, opt) => Is('int', sample, opt);
-exports.IsInt = IsInt;
-const IsEmpty = (sample, opt) => Is('empty', sample, opt);
-exports.IsEmpty = IsEmpty;
-const IsObject = (sample, opt) => Is('object', sample, opt);
-exports.IsObject = IsObject;
-const IsArray = (sample, opt) => Is('array', sample, opt);
-exports.IsArray = IsArray;
+const isInt = (sample, opt) => is('int', sample, opt);
+const isEmpty = (sample, opt) => is('empty', sample, opt);
+const isObject = (sample, opt) => is('object', sample, opt);
+const isArray = (sample, opt) => is('array', sample, opt);
+module.exports = { is, isInt, isEmpty, isObject, isArray };

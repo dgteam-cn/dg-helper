@@ -1,11 +1,11 @@
 
 /**
- * @name 把时间转换成 'yyyy-MM-dd hh:mm:ss' 格式
+ * 把时间转换成 'yyyy-MM-dd hh:mm:ss' 格式
  * @param date [string | int | Date | undefined]
  * @param format 参考 'yyyy-MM-dd hh:mm:ss'
  * @return string
  */
-const Time = (time: number | string | Date | undefined = new Date(), format: string = "yyyy-MM-dd hh:mm:ss"): string => {
+const time = (time: number | string | Date | undefined = new Date(), format: string = "yyyy-MM-dd hh:mm:ss"): string => {
     if (time === null || time === undefined) {
         time = new Date(0)
     } else if (typeof time === 'string') {
@@ -44,13 +44,15 @@ const Time = (time: number | string | Date | undefined = new Date(), format: str
 }
 
 /**
- * @name 获取时间戳（单位秒）
+ * 获取时间戳（单位秒）
  * @param date [number | Date]
  * @return string
  */
-const Timestamp = (date?: number | string | Date): number => {
+const timestamp = (date?: number | string | Date): number => {
     const time: Date = date ? new Date(date) : new Date()
     return Date.parse(time.toString()) / 1000
 }
 
-export {Time, Timestamp}
+module.exports = {
+    time, timestamp
+}

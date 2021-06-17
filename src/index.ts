@@ -1,8 +1,12 @@
-import {Time, Timestamp} from './plugins/time'
-import {Is, IsInt, IsEmpty, IsObject, IsArray} from './plugins/determine'
-import {Client as CacheClient, Cache, CacheGet, CacheSet, CacheRemove, CacheClean, CacheInfo} from './plugins/cache'
-import {Big, Price, PriceUppercase, PrefixZero, Uuid} from './plugins/math'
-import {UrlParse} from './plugins/url'
+// import {Time, Timestamp} from './plugins/time'
+// import {Is, IsInt, IsEmpty, IsObject, IsArray} from './plugins/determine'
+// import {Client as CacheClient, Cache, CacheGet, CacheSet, CacheRemove, CacheClean, CacheInfo} from './plugins/cache'
+// import {Big, Price, PriceUppercase, PrefixZero, Uuid} from './plugins/math'
+// import {UrlParse} from './plugins/url'
+const {time, timestamp} = require('./plugins/time')
+const {is, isInt, isEmpty, isObject, isArray} = require('./plugins/determine')
+const {client: cacheClient, cache, cacheGet, cacheSet, cacheRemove, cacheClean, cacheInfo} = require('./plugins/cache')
+const {big, price, priceUppercase, prefixZero, uuid} = require('./plugins/math')
 const pkg: any = require('../package.json')
 
 export interface enumOptions {
@@ -12,7 +16,7 @@ export interface enumOptions {
     defLabel?: string
 }
 
-export default {
+const helper = {
 
     version: pkg.version,
 
@@ -21,15 +25,15 @@ export default {
     //     return Object.assign(old, ...obj) // 这个方法没有办法深拷贝
     // },
 
-    Extend(target: any = {}, ...args: any): object {
+    extend(target: any = {}, ...args: any): object {
         let i = 0;
         const length = args.length;
-        let options: any;
-        let name: string;
-        let src: any;
-        let copy: any;
+        let options;
+        let name;
+        let src;
+        let copy;
         if (!target) {
-            target = this.isArray(args[0]) ? [] : {};
+            target = isArray(args[0]) ? [] : {};
         }
         for (; i < length; i++) {
             options = args[i];
@@ -42,10 +46,10 @@ export default {
                 if (src && src === copy) {
                     continue;
                 }
-                if (this.isArray(copy)) {
+                if (isArray(copy)) {
                     target[name] = this.extend([], copy);
-                } else if (this.isObject(copy)) {
-                    target[name] = this.extend(src && this.isObject(src) ? src : {}, copy);
+                } else if (isObject(copy)) {
+                    target[name] = this.extend(src && isObject(src) ? src : {}, copy);
                 } else {
                     target[name] = copy;
                 }
@@ -55,7 +59,7 @@ export default {
     },
 
     // （深拷贝）复制一个对象或数组 - 无法拷贝 Function
-    Origin(sample: any): any {
+    origin(sample: any): any {
         try {
             if (sample === undefined || sample === null || Number.isNaN(sample)) return sample
             else return JSON.parse(JSON.stringify(sample))
@@ -66,7 +70,7 @@ export default {
     },
 
     // 打印数组
-    Log(...args: any[]): void {
+    log(...args: any[]): void {
         // eslint-disable-next-line no-console
         if (args.length > 0 && typeof console.group !== undefined) {
             // eslint-disable-next-line no-console
@@ -95,7 +99,7 @@ export default {
      *              item：数据源对象 | key: 待枚举名   value: 待枚举值
      * @return {string}
      */
-    Enum(list: Array<any> = [], fun: any = new Function(), options: enumOptions | string  = {}): any {
+    enum(list: Array<any> = [], fun: any = new Function(), options: enumOptions | string  = {}): any {
         if (typeof options === 'string') {
             options = {defLabel: options}
         }
@@ -133,9 +137,10 @@ export default {
 
 
     // 其他方法
-    Big, Price, PriceUppercase, PrefixZero, Uuid,
-    CacheClient, Cache, CacheGet, CacheSet, CacheRemove, CacheClean, CacheInfo,
-    Time, Timestamp,
-    Is, IsInt, IsEmpty, IsObject, IsArray,
-    UrlParse
+    big, price, priceUppercase, prefixZero, uuid,
+    cacheClient, cache, cacheGet, cacheSet, cacheRemove, cacheClean, cacheInfo,
+    time, timestamp,
+    is, isInt, isEmpty, isObject, isArray
 }
+
+module.exports = helper

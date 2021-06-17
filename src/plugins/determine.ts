@@ -4,7 +4,7 @@
  * @param sample 判定样本
  * @param strict 是否使用严格模式，如果为 false 可能会降低判定精度
  */
-const Is = (type: string = "object", sample: any, {strict=true}={}): boolean => {
+const is = (type: string = "object", sample: any, {strict=true}={}): boolean => {
     switch (type.toLocaleLowerCase()) {
         case 'int': {
             if (sample % 1 === 0) {
@@ -41,14 +41,20 @@ const Is = (type: string = "object", sample: any, {strict=true}={}): boolean => 
         case 'formdata': {
             return sample && typeof sample === 'object' && Object.prototype.toString.call(sample) === "[object FormData]"
         }
+        case 'promise': {
+            return sample && 'function' === typeof sample.then
+        }
+        case 'NaN': {
+            return Number.isNaN(sample)
+        }
         default:
             return false
     }
 }
 
-const IsInt = (sample: any, opt?: object): boolean => Is('int', sample, opt)
-const IsEmpty = (sample: any, opt?: object): boolean => Is('empty', sample, opt)
-const IsObject = (sample: any, opt?: object): boolean => Is('object', sample, opt)
-const IsArray = (sample: any, opt?: object): boolean => Is('array', sample, opt)
+const isInt = (sample: any, opt?: object): boolean => is('int', sample, opt)
+const isEmpty = (sample: any, opt?: object): boolean => is('empty', sample, opt)
+const isObject = (sample: any, opt?: object): boolean => is('object', sample, opt)
+const isArray = (sample: any, opt?: object): boolean => is('array', sample, opt)
 
-export {Is, IsInt, IsEmpty, IsObject, IsArray}
+module.exports = {is, isInt, isEmpty, isObject, isArray}
