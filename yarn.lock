@@ -23,6 +23,11 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
+"@dgteam/eslint-config-team@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.nlark.com/@dgteam/eslint-config-team/download/@dgteam/eslint-config-team-0.1.1.tgz?cache=0&sync_timestamp=1623901092031&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40dgteam%2Feslint-config-team%2Fdownload%2F%40dgteam%2Feslint-config-team-0.1.1.tgz#cb3459d09650b53c3de3e5de60ef99ab2e521e8d"
+  integrity sha1-yzRZ0JZQtTw94+XeYO+Zqy5SHo0=
+
 "@eslint/eslintrc@^0.2.2":
   version "0.2.2"
   resolved "https://registry.npm.taobao.org/@eslint/eslintrc/download/@eslint/eslintrc-0.2.2.tgz?cache=0&sync_timestamp=1607143812336&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40eslint%2Feslintrc%2Fdownload%2F%40eslint%2Feslintrc-0.2.2.tgz#d01fc791e2fc33e88a29d6f3dc7e93d0cd784b76"
