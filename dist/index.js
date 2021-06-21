@@ -1,26 +1,31 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const time_1 = require("./plugins/time");
-const determine_1 = require("./plugins/determine");
-const cache_1 = require("./plugins/cache");
-const math_1 = require("./plugins/math");
-const url_1 = require("./plugins/url");
+// import {UrlParse} from './plugins/url'
+const { time, timestamp } = require('./plugins/time');
+const { is, isInt, isEmpty, isObject, isArray } = require('./plugins/determine');
+const { client: cacheClient, cache, cacheGet, cacheSet, cacheRemove, cacheClean, cacheInfo } = require('./plugins/cache');
+const { big, price, priceUppercase, prefixZero, uuid, randomNumber, randomString, randomInt } = require('./plugins/math');
 const pkg = require('../package.json');
-exports.default = {
+/**
+ * @date 2021-06-21
+ * @author 2681137811<donguayx@qq.com>
+ */
+const helper = {
+    // 版本号
     version: pkg.version,
-    // // （浅拷贝）继承一个对象
-    // Extend(old: any, ...obj: any): object {
-    //     return Object.assign(old, ...obj) // 这个方法没有办法深拷贝
-    // },
-    Extend(target = {}, ...args) {
+    /**
+     * 拷贝一个对象（深拷贝）
+     * @param {object} target - 原始对象
+     * @param {object[]} args - 需要基础的对象，传入无效值回会忽略继承；
+     * @returns {object} 新的对象
+     * 使用 Object.assign 方法无法进行办法深拷贝，对象深度超过 1 层将会失效
+     */
+    extend(target = {}, ...args) {
         let i = 0;
         const length = args.length;
-        let options;
-        let name;
-        let src;
-        let copy;
+        let options, name, src, copy;
         if (!target) {
-            target = this.isArray(args[0]) ? [] : {};
+            target = isArray(args[0]) ? [] : {};
         }
         for (; i < length; i++) {
             options = args[i];
@@ -33,11 +38,11 @@ exports.default = {
                 if (src && src === copy) {
                     continue;
                 }
-                if (this.isArray(copy)) {
+                if (isArray(copy)) {
                     target[name] = this.extend([], copy);
                 }
-                else if (this.isObject(copy)) {
-                    target[name] = this.extend(src && this.isObject(src) ? src : {}, copy);
+                else if (isObject(copy)) {
+                    target[name] = this.extend(src && isObject(src) ? src : {}, copy);
                 }
                 else {
                     target[name] = copy;
@@ -46,8 +51,12 @@ exports.default = {
         }
         return target;
     },
-    // （深拷贝）复制一个对象或数组 - 无法拷贝 Function
-    Origin(sample) {
+    /**
+     * 复制一个 json 对象（深拷贝），无法复制 function 类型字段
+     * @param {object} sample - 需要复制对象
+     * @returns {object} 新的对象
+     */
+    originJSON(sample) {
         try {
             if (sample === undefined || sample === null || Number.isNaN(sample))
                 return sample;
@@ -59,8 +68,15 @@ exports.default = {
             return sample;
         }
     },
-    // 打印数组
-    Log(...args) {
+    origin(sample) {
+        return this.originJSON(sample);
+    },
+    /**
+     * 复制一个 json 对象（深拷贝），无法复制 function 类型字段
+     * @param {string[]} sample - 需要复制对象
+     * @returns {object} 新的对象
+     */
+    log(...args) {
         // eslint-disable-next-line no-console
         if (args.length > 0 && typeof console.group !== undefined) {
             // eslint-disable-next-line no-console
@@ -76,6 +92,16 @@ exports.default = {
         }
     },
     /**
+     * 去除文字左右两边空格
+     * @param {string} str - 需要处理的字符串
+     * @returns {string} 新的字符串
+     */
+    trim(str, { all = false } = {}) {
+        if (all)
+            return str.replace(/\s/g, "");
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+    },
+    /**
      * @name 数组枚举
      * @param {array}           list 待枚举数组
      * @param {any}             fun - 若传入 function 则使用方法判定 row 与 item 是否匹配
@@ -89,7 +115,7 @@ exports.default = {
      *              item：数据源对象 | key: 待枚举名   value: 待枚举值
      * @return {string}
      */
-    Enum(list = [], fun = new Function(), options = {}) {
+    enum(list = [], fun = new Function(), options = {}) {
         if (typeof options === 'string') {
             options = { defLabel: options };
         }
@@ -124,10 +150,32 @@ exports.default = {
         }
         return defLabel;
     },
+    /**
+     * 驼峰字符串转为转蛇形字符串
+     * @param {string} str - 需要处理的字符串
+     * @param {string} [separator = '_'] - 分隔符
+     * @returns {string} 新的字符串
+     */
+    snakeCase(str, separator = '_') {
+        return str.replace(/([^A-Z])([A-Z])/g, function ($0, $1, $2) {
+            return $1 + separator + $2.toLowerCase();
+        });
+    },
+    /**
+     * 蛇形字符串转驼峰字符串
+     * @param {string} str - 需要处理的字符串
+     * @param {string} [separator = '_'] - 分隔符
+     * @returns {string} 新的字符串
+     */
+    camelCase(str, separator = '_') {
+        return str.replace(RegExp(`${separator}(\\w)`, 'g'), function ($0, $1) {
+            return $1.toUpperCase();
+        });
+    },
     // 其他方法
-    Big: math_1.Big, Price: math_1.Price, PriceUppercase: math_1.PriceUppercase, PrefixZero: math_1.PrefixZero, Uuid: math_1.Uuid,
-    CacheClient: cache_1.Client, Cache: cache_1.Cache, CacheGet: cache_1.CacheGet, CacheSet: cache_1.CacheSet, CacheRemove: cache_1.CacheRemove, CacheClean: cache_1.CacheClean, CacheInfo: cache_1.CacheInfo,
-    Time: time_1.Time, Timestamp: time_1.Timestamp,
-    Is: determine_1.Is, IsInt: determine_1.IsInt, IsEmpty: determine_1.IsEmpty, IsObject: determine_1.IsObject, IsArray: determine_1.IsArray,
-    UrlParse: url_1.UrlParse
+    big, price, priceUppercase, prefixZero, uuid, randomNumber, randomString, randomInt,
+    cacheClient, cache, cacheGet, cacheSet, cacheRemove, cacheClean, cacheInfo,
+    time, timestamp,
+    is, isInt, isEmpty, isObject, isArray
 };
+module.exports = helper;

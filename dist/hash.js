@@ -1,24 +1,34 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+const Md5JS = require('js-md5'); // import Md5JS from 'js-md5'
+const { Base64: Base64JS } = require('js-base64'); // import {Base64 as Base64JS} from 'js-base64'
+/**
+ * 把字符串进行 md5 加密，输出加密后的字符串
+ * @param {string | number} str - 需要加密的字符串（如果是数字则自动转为字符串）
+ * @returns {string}
+ */
+const md5 = (str) => {
+    if (typeof str === 'number')
+        return Md5JS(str.toString());
+    return Md5JS(str);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const js_md5_1 = __importDefault(require("js-md5"));
-const js_base64_1 = require("js-base64");
-const Md5 = (str) => js_md5_1.default(str);
-const Base64 = (str, mode = 'encodeURL') => {
+/**
+ * 把字符串进行 base64 加密（或解密），输出加密（或解密）后的字符串
+ * @param {string | number} str - 需要加密的字符串（如果是数字则自动转为字符串）
+ * @param {string} mode - 加密（或解密）方式
+ * @returns {string}
+ */
+const base64 = (str, mode = 'encodeURL') => {
     if (mode === 'encodeURL')
-        return js_base64_1.Base64.encodeURI(str.toString());
+        return Base64JS.encodeURI(str.toString()); // 使用 URL 安全的 base64 加密
     else if (mode === 'encode')
-        return js_base64_1.Base64.encode(str.toString());
+        return Base64JS.encode(str.toString()); // 使用普通 base64 加密
     else if (mode === 'decode')
-        return js_base64_1.Base64.encode(str.toString());
+        return Base64JS.decode(str.toString()); // 使用 base64 解密
     else
         throw Error('mode 格式错误');
 };
-const Base64EncodeURL = (str) => js_base64_1.Base64.encodeURI(str.toString());
-const Base64Encode = (str) => js_base64_1.Base64.encode(str.toString());
-const Base64Decode = (str) => js_base64_1.Base64.decode(str.toString());
-exports.default = {
-    Md5, Base64, Base64Encode, Base64EncodeURL, Base64Decode
+const base64EncodeURL = (str) => Base64JS.encodeURI(str.toString());
+const base64Encode = (str) => Base64JS.encode(str.toString());
+const base64Decode = (str) => Base64JS.decode(str.toString());
+module.exports = {
+    md5, base64, base64Encode, base64EncodeURL, base64Decode
 };

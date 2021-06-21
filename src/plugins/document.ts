@@ -1,4 +1,5 @@
-import {Big} from './math'
+const big = require('big.js')
+
 // const mineTypeMap = {
 //     'application': {
 //         'envoy': 'evy',
@@ -156,18 +157,24 @@ import {Big} from './math'
 //     html: ['text/html']
 // }
 
-const FileSizeName = (size: number | string, {round=2, origin='B'}={}) => {
+/**
+ * 把字节数转换为指定的格式
+ * @param {number} size - 原字节数大小
+ * @param {number} [opt.round = 2] 保留几位小数
+ * @returns {string}
+ */
+const fileSizeName = (size: number | string, {round = 2} = {}) => {
     if (size) {
         try {
             size = Number(size)
             if (1024 > size) {
                 return size + ' B'
             } else if (1048576 > size) {
-                return Big(size).div(1024).round(round, 1) + ' KB'
+                return big(size).div(1024).round(round, 1) + ' KB'
             } else if (1073741824 > size) {
-                return Big(size).div(1048576).round(round, 1) + ' MB'
+                return big(size).div(1048576).round(round, 1) + ' MB'
             } else {
-                return Big(size).div(1073741824).round(round, 1) + ' GB'
+                return big(size).div(1073741824).round(round, 1) + ' GB'
             }
         } catch (e) {
             return '-'
@@ -175,4 +182,4 @@ const FileSizeName = (size: number | string, {round=2, origin='B'}={}) => {
     }
     return '-'
 }
-export {FileSizeName}
+module.exports = {fileSizeName}

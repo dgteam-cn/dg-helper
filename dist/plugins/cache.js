@@ -1,16 +1,13 @@
-"use strict";
 /**
- * localStorage 缓存相关
+ * 缓存构造器
+ * 支持常用浏览器、uniapp、uniapp html5+、微信小程序环境
+ * 不支持 node 后端环境，后端请使用 mysql mongodb redis 等数据库替代
+ * @class
  * @date 2020-05-25
  * @author 2681137811<donguayx@qq.com>
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CacheInfo = exports.CacheClean = exports.CacheRemove = exports.CacheSet = exports.CacheGet = exports.Cache = exports.Client = void 0;
-class Storage {
-    // 根据当前环境自动获取缓存对象实例，并生成通用方法 [ get, set, remove, clean, info ]
-    // 支持 浏览器、微信小程序、uniapp、html5+
-    // 不支持 window、liunx 操作系统级别环境，请使用 mysql mongodb redis 等应用级模块替代
-    get Client() {
+class Storager {
+    get client() {
         if (typeof window === 'object' && window.localStorage) {
             return {
                 mode: 'browser', handle: window,
@@ -73,21 +70,21 @@ class Storage {
      * @param value 缓存字段，会根据环境自动使用 JSON.stringify 序列化
      * @param timeout 缓存时间，若为数字格式则以秒为计算单位，字符串格式的末尾需要添加单位 如 '1d'=1天 '1h'=1小时 '1m'=1分钟 '1s'=1秒
      */
-    Cache(key, value, timeout) {
+    cache(key, value, timeout) {
         if (key) {
             if (value === undefined && timeout === undefined) {
-                return this.CacheGet(key);
+                return this.cacheGet(key);
             }
             else if (value === null || timeout === 0) {
-                return this.CacheRemove(key);
+                return this.cacheRemove(key);
             }
             else {
-                return this.CacheSet(key, value, timeout);
+                return this.cacheSet(key, value, timeout);
             }
         }
     }
     // 获取缓存
-    CacheGet(key) {
+    cacheGet(key) {
         if (key === undefined) {
             console.error('cache key can not be blank.');
             return undefined;
@@ -101,7 +98,7 @@ class Storage {
                 return undefined;
             }
         }
-        const { Client: client } = this;
+        const { client } = this;
         const cache = client.get(key);
         const expired = client.get(`${key}_timeout`);
         if (expired && Date.now() > expired) {
@@ -112,7 +109,7 @@ class Storage {
         return cache;
     }
     // 存储缓存
-    CacheSet(key, val, timeout) {
+    cacheSet(key, val, timeout) {
         if (key === undefined) {
             console.error('cache key can not be blank.');
             return undefined;
@@ -126,7 +123,7 @@ class Storage {
                 return undefined;
             }
         }
-        const { Client: client } = this;
+        const { client } = this;
         if (timeout) {
             let throughSecond = 0;
             if (typeof timeout === 'number') {
@@ -157,7 +154,7 @@ class Storage {
         }
         return client.set(key, val);
     }
-    CacheRemove(key) {
+    cacheRemove(key) {
         if (key === undefined) {
             console.error('cache key can not be blank.');
             return undefined;
@@ -171,30 +168,28 @@ class Storage {
                 return undefined;
             }
         }
-        return this.Client.remove(key);
+        return this.client.remove(key);
     }
     // 清除缓存
-    CacheClean() {
-        return this.Client.clean();
+    cacheClean() {
+        return this.client.clean();
     }
     // 获取当前缓存信息
-    CacheInfo() {
-        const { mode, handle, info } = this.Client;
+    cacheInfo() {
+        const { mode, handle, info } = this.client;
         return Object.assign({ mode, handle }, info());
     }
 }
-const Store = new Storage();
-const Client = Store.Client;
-exports.Client = Client;
-const Cache = (key, value, timeout) => Store.Cache(key, value, timeout);
-exports.Cache = Cache;
-const CacheGet = (key) => Store.CacheGet(key);
-exports.CacheGet = CacheGet;
-const CacheSet = (key, value, timeout) => Store.CacheSet(key, value, timeout);
-exports.CacheSet = CacheSet;
-const CacheRemove = (key) => Store.CacheRemove(key);
-exports.CacheRemove = CacheRemove;
-const CacheClean = () => Store.CacheClean();
-exports.CacheClean = CacheClean;
-const CacheInfo = () => Store.CacheInfo();
-exports.CacheInfo = CacheInfo;
+const Store = new Storager();
+const client = Store.client;
+const cache = (key, value, timeout) => Store.cache(key, value, timeout);
+const cacheGet = (key) => Store.cacheGet(key);
+const cacheSet = (key, value, timeout) => Store.cacheSet(key, value, timeout);
+const cacheRemove = (key) => Store.cacheRemove(key);
+const cacheClean = () => Store.cacheClean();
+const cacheInfo = () => Store.cacheInfo();
+module.exports = {
+    client, cache,
+    cacheGet, cacheSet, cacheRemove,
+    cacheClean, cacheInfo
+};

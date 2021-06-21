@@ -1,13 +1,15 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.IsArray = exports.IsObject = exports.IsEmpty = exports.IsInt = exports.Is = void 0;
+function objectToString(o) {
+    return Object.prototype.toString.call(o);
+}
 /**
- *  变量判定
- * @param type 判定类型 [ int, object, array, empty, formdata ]
- * @param sample 判定样本
- * @param strict 是否使用严格模式，如果为 false 可能会降低判定精度
+ * 变量判定
+ * 可参考 core-util-is [github: https://github.com/isaacs/core-util-is]
+ * @param {string} type - 判定类型 [int, object, array, empty, formdata] (不区分大小写)
+ * @param {any} sample - 需要判定的对象样本
+ * @param {boolean} opt.strict - 是否使用严格模式，如果为 false 可能会降低判定精度
+ * @return {boolean} 判定结果
  */
-const Is = (type = "object", sample, { strict = true } = {}) => {
+const is = (type = "object", sample, { strict = true } = {}) => {
     switch (type.toLocaleLowerCase()) {
         case 'int': {
             if (sample % 1 === 0) {
@@ -20,20 +22,20 @@ const Is = (type = "object", sample, { strict = true } = {}) => {
         }
         case 'object': {
             if (sample && typeof sample === 'object') {
-                if (strict && Object.prototype.toString.call(sample) !== "[object Object]") {
+                if (strict && objectToString(sample) !== "[object Object]") {
                     return false; // 严格模式下只有 {} 的对象可以返回 true
                 }
-                return true; // [] 等也会返回 true
+                return true; // 非严格模式，[] 等也会返回 true
             }
             return false;
         }
         case 'array': {
-            return Array.isArray(sample);
+            if (Array.isArray)
+                return Array.isArray(sample);
+            return objectToString(sample) === '[object Array]';
         }
         case 'empty': {
-            if (sample === null)
-                return true;
-            else if (sample === undefined)
+            if (sample === null || sample === undefined)
                 return true;
             else if (Array.isArray(sample))
                 return sample.length === 0;
@@ -45,19 +47,27 @@ const Is = (type = "object", sample, { strict = true } = {}) => {
             }
             return true;
         }
+        case 'date': {
+            return objectToString(sample) === '[object Date]';
+        }
+        case 'regexp': {
+            return objectToString(sample) === '[object RegExp]';
+        }
         case 'formdata': {
-            return sample && typeof sample === 'object' && Object.prototype.toString.call(sample) === "[object FormData]";
+            return sample && typeof sample === 'object' && objectToString.call(sample) === "[object FormData]";
+        }
+        case 'promise': {
+            return sample && typeof sample.then === 'function';
+        }
+        case 'NaN': {
+            return Number.isNaN(sample);
         }
         default:
             return false;
     }
 };
-exports.Is = Is;
-const IsInt = (sample, opt) => Is('int', sample, opt);
-exports.IsInt = IsInt;
-const IsEmpty = (sample, opt) => Is('empty', sample, opt);
-exports.IsEmpty = IsEmpty;
-const IsObject = (sample, opt) => Is('object', sample, opt);
-exports.IsObject = IsObject;
-const IsArray = (sample, opt) => Is('array', sample, opt);
-exports.IsArray = IsArray;
+const isInt = (sample, opt) => is('int', sample, opt);
+const isEmpty = (sample, opt) => is('empty', sample, opt);
+const isObject = (sample, opt) => is('object', sample, opt);
+const isArray = (sample, opt) => is('array', sample, opt);
+module.exports = { is, isInt, isEmpty, isObject, isArray };

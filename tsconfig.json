@@ -3,7 +3,7 @@
 
         /* Basic Options */
         // ES5 = ES2015; ES6 = ES2016; ES7 = ES2017; ES8 = ES2018
-        "target": "ES2016", // 编译后的目标版本 [ 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018', 'ESNEXT' ]
+        "target": "ES2015", // 编译后的目标版本 [ 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018', 'ESNEXT' ]
         "module": "commonjs", // 应用的模块标准 [ 'none', 'commonjs', 'amd', 'system', 'umd', 'es6', 'es2015', 'es2020', 'esnext' ]
         "lib": ["es6", "dom"], // 指定包含在编译中的库文件 
         "allowJs": true, // 是否编译 JS 文件 - 默认 false
