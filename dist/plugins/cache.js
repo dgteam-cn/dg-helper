@@ -1,12 +1,12 @@
 /**
- * localStorage 缓存相关
+ * 缓存构造器
+ * 支持常用浏览器、uniapp、uniapp html5+、微信小程序环境
+ * 不支持 node 后端环境，后端请使用 mysql mongodb redis 等数据库替代
+ * @class
  * @date 2020-05-25
  * @author 2681137811<donguayx@qq.com>
  */
 class Storager {
-    // 根据当前环境自动获取缓存对象实例，并生成通用方法 [ get, set, remove, clean, info ]
-    // 支持 浏览器、微信小程序、uniapp、html5+
-    // 不支持 window、liunx 操作系统级别环境，请使用 mysql mongodb redis 等应用级模块替代
     get client() {
         if (typeof window === 'object' && window.localStorage) {
             return {

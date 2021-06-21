@@ -1,3 +1,4 @@
+
 // const cutout = function(str: string, mark) {
 //     const length = str.length
 //     const index = str.indexOf(mark)
@@ -7,11 +8,13 @@
 //         [str.slice(0, index), str.slice(index + mark.length)] :
 //         [str, '']
 // }
+
 // // console.log("cutout('=', '=')", cutout('=', '='))
 // // console.log("cutout('a=', '=')", cutout('a=', '='))
 // // console.log("cutout('=a', '=')", cutout('=a', '='))
 // // console.log("cutout('abc=abc', '=')", cutout('abc=abc', '='))
 // // console.log("cutout('abc=abc', 'bc=ab')", cutout('abc=abc', 'bc=ab'))
+
 // /**
 //  * 把 queryPath 对象转换成 JSON 或数组
 // */
@@ -46,6 +49,7 @@
 //     }
 //     return output === 'object' ? query : queryArray
 // }
+
 // /**
 //  * 把 JSON 或数组转换成为 queryPath
 // */
@@ -99,10 +103,12 @@
 //     }
 //     return paths.join('&')
 // }
+
 // // 【已修复】 出现 {{}} 等符号会出现解析错误：目前使用关键点进行解析，减少错误发生可能性
 // // 【已修复】 需要增加 hashParams 解析
 // // 【已修复】 url 没有经过 encodeURI / decodeURI 反编译，导致中文字符乱码
 // // FIXME 中文域名没有经过 Punycode 编码，导致访问异常
+
 // // protocol://username:password@host:port/path?query#hash?hashParams
 // // protocol - host - path - query - hash
 // //    │        │      │       │      └─ 第一个 # 之后的都会解析成为 hash
@@ -110,6 +116,7 @@
 // //    │        │      └─ host 判断之后的第一个 / 到第一个 ? 或第一个 # 为止
 // //    │        └─ :// 到第一个 / 之间都会被解析成 host ， 注意 host 中至少需要有一个 .
 // //    └─ :// 之前的都会被解析成 protocol
+
 // const parse = function(href = "", {uri = true, sep, eq} = {}) {
 //     if (typeof href !== "string") throw new Error("Url 'href' need string.")
 //     try {
@@ -125,33 +132,39 @@
 //             params: {}, // 参数组 （查询）
 //             variables: [] // 参数组 （路由）
 //         }
+
 //         // 提取 hash 值
 //         if (~href.indexOf('#')) {
 //             const [residue, hash] = cutout(href, '#')
 //             obj.hash = hash
 //             href = residue
 //         }
+
 //         // 提取 search 值
 //         if (~href.indexOf('?')) {
 //             const [residue, search] = cutout(href, '?')
 //             obj.search = search
 //             href = residue
+
 //             // 提取 search 至 params
 //             obj.params = queryParse(obj.search, {sep, eq, uri})
 //             // obj.paramsArray = queryParse(obj.search, {output: 'array', sep, eq, uri})
 //         }
+
 //         // 提取 protoco
 //         if (~href.indexOf('://')) {
 //             const [protocol, residue] = cutout(href, '://')
 //             obj.protocol = protocol // href.split('://')[0] // 转为小写 .toLowerCase()
 //             href = residue // href.split('://')[1]
 //         }
+
 //         // 提取 query
 //         // obj.search = cutout(href, '?')[1] || "" // href.split('?')[1] || ""
 //         // href = cutout(href, '?')[0] // href.split('?')[0] // 去掉 search 值
 //         obj.paths = href.split('/')
 //         if (~obj.paths[0].indexOf('.')) {
 //             obj.host = obj.paths.shift()
+
 //             // 提取 host 的用户名与密码
 //             if (~obj.host.indexOf('@')) {
 //                 const authorization = cutout(obj.host, '/')[0] // obj.host.split('/')[0]
@@ -159,12 +172,14 @@
 //                 obj.username = cutout(authorization, ':')[0] // authorization.split(':')[0]
 //                 obj.password = cutout(authorization, ':')[1] // authorization.split(':')[1]
 //             }
+
 //             // 提取 host 的端口
 //             if (~obj.host.indexOf(':')) {
 //                 obj.port = cutout(obj.host, ':')[1] // obj.host.split(':')[1]
 //                 obj.host = cutout(obj.host, ':')[0] // obj.host.split(':')[0]
 //             }
 //         }
+
 //         obj.path = obj.paths.join('/')
 //         if (obj.paths.length > 0) {
 //             // 提取 path variables
@@ -175,7 +190,9 @@
 //                 }
 //             }
 //         }
+
 //         obj.origin =  `${obj.protocol ? `${obj.protocol}://` : ''}${obj.host ? `${obj.host}` : ''}${obj.port ? `:${obj.port}` : ''}`
+
 //         return obj
 //     } catch (err) {
 //         console.error(err)
@@ -192,6 +209,8 @@
 //     if (hash) url += `#${hash}`
 //     return url
 // }
+
+
 // /**
 //  * @class URL
 //  * @param {string}  url              - 网址
@@ -230,11 +249,14 @@
 //     const {sep, eq, uri} = this.options
 //     return this.search ? queryParse(this.search, {output: 'array', sep, eq, uri}) : []
 // }
+
 // URL.query = function() {}
 // URL.query.parse = queryParse
 // URL.query.stringify = queryStringify
+
 // // let url = 'http://www.baidu.com/account/user/:id?a=1&a=2&c=中国';
 // // let aaa = App.URLParse(url);
 // // console.log(aaa, aaa.stringify() === url);
 // // console.log('\n\n', url, '\n', aaa.stringify());
+
 // export default URL

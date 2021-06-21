@@ -154,6 +154,12 @@ const big = require('big.js');
 //     sound: ['audio/x-mpeg'],
 //     html: ['text/html']
 // }
+/**
+ * 把字节数转换为指定的格式
+ * @param {number} size - 原字节数大小
+ * @param {number} [opt.round = 2] 保留几位小数
+ * @returns {string}
+ */
 const fileSizeName = (size, { round = 2 } = {}) => {
     if (size) {
         try {

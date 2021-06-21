@@ -1,12 +1,8 @@
-// import {Time, Timestamp} from './plugins/time'
-// import {Is, IsInt, IsEmpty, IsObject, IsArray} from './plugins/determine'
-// import {Client as CacheClient, Cache, CacheGet, CacheSet, CacheRemove, CacheClean, CacheInfo} from './plugins/cache'
-// import {Big, Price, PriceUppercase, PrefixZero, Uuid} from './plugins/math'
 // import {UrlParse} from './plugins/url'
 const {time, timestamp} = require('./plugins/time')
 const {is, isInt, isEmpty, isObject, isArray} = require('./plugins/determine')
 const {client: cacheClient, cache, cacheGet, cacheSet, cacheRemove, cacheClean, cacheInfo} = require('./plugins/cache')
-const {big, price, priceUppercase, prefixZero, uuid} = require('./plugins/math')
+const {big, price, priceUppercase, prefixZero, uuid, randomNumber, randomString, randomInt} = require('./plugins/math')
 const pkg: any = require('../package.json')
 
 export interface enumOptions {
@@ -16,22 +12,26 @@ export interface enumOptions {
     defLabel?: string
 }
 
+/**
+ * @date 2021-06-21
+ * @author 2681137811<donguayx@qq.com>
+ */
 const helper = {
 
+    // 版本号
     version: pkg.version,
 
-    // // （浅拷贝）继承一个对象
-    // Extend(old: any, ...obj: any): object {
-    //     return Object.assign(old, ...obj) // 这个方法没有办法深拷贝
-    // },
-
+    /**
+     * 拷贝一个对象（深拷贝）
+     * @param {object} target - 原始对象
+     * @param {object[]} args - 需要基础的对象，传入无效值回会忽略继承；
+     * @returns {object} 新的对象
+     * 使用 Object.assign 方法无法进行办法深拷贝，对象深度超过 1 层将会失效
+     */
     extend(target: any = {}, ...args: any): object {
         let i = 0;
         const length = args.length;
-        let options;
-        let name;
-        let src;
-        let copy;
+        let options, name, src, copy;
         if (!target) {
             target = isArray(args[0]) ? [] : {};
         }
@@ -58,8 +58,12 @@ const helper = {
         return target
     },
 
-    // （深拷贝）复制一个对象或数组 - 无法拷贝 Function
-    origin(sample: any): any {
+    /**
+     * 复制一个 json 对象（深拷贝），无法复制 function 类型字段
+     * @param {object} sample - 需要复制对象
+     * @returns {object} 新的对象
+     */
+    originJSON(sample: any): any {
         try {
             if (sample === undefined || sample === null || Number.isNaN(sample)) return sample
             else return JSON.parse(JSON.stringify(sample))
@@ -68,8 +72,15 @@ const helper = {
             return sample
         }
     },
+    origin(sample: any): any { // 注意此命名以后可能会废弃，请使用 originJSON
+        return this.originJSON(sample)
+    },
 
-    // 打印数组
+    /**
+     * 复制一个 json 对象（深拷贝），无法复制 function 类型字段
+     * @param {string[]} sample - 需要复制对象
+     * @returns {object} 新的对象
+     */
     log(...args: any[]): void {
         // eslint-disable-next-line no-console
         if (args.length > 0 && typeof console.group !== undefined) {
@@ -83,6 +94,16 @@ const helper = {
             // eslint-disable-next-line no-console
             console.log('\n', ...args, '\n')
         }
+    },
+
+    /**
+     * 去除文字左右两边空格
+     * @param {string} str - 需要处理的字符串
+     * @returns {string} 新的字符串
+     */
+    trim(str: string, {all = false} = {}): string {
+        if (all) return str.replace(/\s/g, "")
+        return str.replace(/(^\s*)|(\s*$)/g, "")
     },
 
     /**
@@ -135,9 +156,32 @@ const helper = {
         return defLabel
     },
 
+    /**
+     * 驼峰字符串转为转蛇形字符串
+     * @param {string} str - 需要处理的字符串
+     * @param {string} [separator = '_'] - 分隔符
+     * @returns {string} 新的字符串
+     */
+    snakeCase(str: string, separator: string = '_'): string {
+        return str.replace(/([^A-Z])([A-Z])/g, function($0, $1, $2) {
+            return $1 + separator + $2.toLowerCase()
+        })
+    },
+
+    /**
+     * 蛇形字符串转驼峰字符串
+     * @param {string} str - 需要处理的字符串
+     * @param {string} [separator = '_'] - 分隔符
+     * @returns {string} 新的字符串
+     */
+    camelCase(str: string, separator: string = '_'): string {
+        return str.replace(RegExp(`${separator}(\\w)`, 'g'), function ($0, $1) {
+            return $1.toUpperCase()
+        })
+    },
 
     // 其他方法
-    big, price, priceUppercase, prefixZero, uuid,
+    big, price, priceUppercase, prefixZero, uuid, randomNumber, randomString, randomInt,
     cacheClient, cache, cacheGet, cacheSet, cacheRemove, cacheClean, cacheInfo,
     time, timestamp,
     is, isInt, isEmpty, isObject, isArray

@@ -157,7 +157,13 @@ const big = require('big.js')
 //     html: ['text/html']
 // }
 
-const fileSizeName = (size: number | string, {round=2}={}) => {
+/**
+ * 把字节数转换为指定的格式
+ * @param {number} size - 原字节数大小
+ * @param {number} [opt.round = 2] 保留几位小数
+ * @returns {string}
+ */
+const fileSizeName = (size: number | string, {round = 2} = {}) => {
     if (size) {
         try {
             size = Number(size)

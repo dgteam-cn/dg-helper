@@ -1,6 +1,6 @@
 {
   "name": "@dgteam/helper",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "",
   "author": "2681137811 <donguayx@qq.com>",
   "main": "dist/index.js",
@@ -8,19 +8,23 @@
     "start": "tsc -w",
     "build": "tsc",
     "push": "tsc && npm publish --access public",
+    "test": "node ./test/runner.js",
     "reset": "rimraf node_modules"
   },
   "license": "MIT",
-  "dependencies": {    
+  "dependencies": {
     "big.js": "^5.2.2",
     "js-base64": "^2.5.2",
-    "js-md5": "^0.7.3"
+    "js-md5": "^0.7.3",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/node": "^14.14.20",
+    "@dgteam/eslint-config-team": "^0.1.1",
     "@types/big.js": "^4.0.5",
     "@types/js-base64": "^2.3.1",
     "@types/js-md5": "^0.4.2",
+    "@types/lodash": "^4.14.170",
+    "@types/node": "^15.12.4",
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "@typescript-eslint/parser": "^4.11.0",
     "eslint": "^7.16.0",
