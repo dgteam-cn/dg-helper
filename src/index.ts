@@ -16,7 +16,7 @@ export interface enumOptions {
  * @date 2021-06-21
  * @author 2681137811<donguayx@qq.com>
  */
-const helper = {
+module.exports = {
 
     // 版本号
     version: pkg.version,
@@ -186,5 +186,3 @@ const helper = {
     time, timestamp,
     is, isInt, isEmpty, isObject, isArray
 }
-
-module.exports = helper

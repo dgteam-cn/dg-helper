@@ -15,9 +15,6 @@ const big = require('big.js');
  *  例: Big(5).div(3).round(2,1).toNumber() // 5 除 3 四舍五入保留两位小数，返回数字类型结果
  * @constructor
  */
-big.prototype.toNumber = function () {
-    return Number(this);
-};
 const Big = (opt) => new big(opt);
 /**
  * 将数字转换为可以显示的格式（价格模式）
