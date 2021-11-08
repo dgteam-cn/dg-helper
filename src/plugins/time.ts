@@ -51,6 +51,9 @@ const time = (time: number | string | Date | undefined = new Date(), format: str
  * @return {string}
  */
 const timestamp = (date?: number | string | Date): number => {
+    if (typeof date === 'string') {
+        date = date.replace(/-/g, "/") // 为了支持 Safari 浏览器
+    }
     const time: Date = date ? new Date(date) : new Date()
     return Date.parse(time.toString()) / 1000
 }

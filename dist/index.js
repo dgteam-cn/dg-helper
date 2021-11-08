@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 // import {UrlParse} from './plugins/url'
 const { time, timestamp } = require('./plugins/time');
 const { is, isInt, isEmpty, isObject, isArray } = require('./plugins/determine');
@@ -178,3 +176,4 @@ module.exports = {
     time, timestamp,
     is, isInt, isEmpty, isObject, isArray
 };
+export {};

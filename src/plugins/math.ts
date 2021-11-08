@@ -12,6 +12,7 @@ const big = require('big.js')
  *          3 = 向上取整
  *  返回结果： 返回数值-toNumber()  返回字符串-toString()  返回浮点型字符串，不足小数自动补0-toFixed(位数)
  *  例: Big(5).div(3).round(2,1).toNumber() // 5 除 3 四舍五入保留两位小数，返回数字类型结果
+ * 注意：big.js 6.x.x 版本以上默认提供 toNumber 方法，并提供严格模式 strict 模式，可以自动解决 0.0000000000001 问题
  * @constructor
  */
 

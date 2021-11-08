@@ -180,6 +180,26 @@ module.exports = {
         })
     },
 
+    /**
+     * 通过字符串的路径去递归深层的查找对象属性
+     * 如果匹配不到则返回 undefined
+     * 例如 deepObjectMatch({a: {b: {c: 5}}}, 'a.b.c') // 结果为 5
+     * 2021-08-30 日新增此方法
+     * @param {Object} tunnel - 需要检查的对象
+     * @param {String | Array[String]} paths - 检查的路径
+     * @returns {any}
+     */
+    deepObjectMatch(tunnel: any, paths: any): any {
+        if (typeof paths === 'string') paths = paths.split('.')
+        if (paths.length > 0) {
+            const key = paths.shift()
+            if (typeof tunnel === 'object' && Object.prototype.hasOwnProperty.call(tunnel, key)) {
+                return paths.length > 0 ? this.deepObjectMatch(tunnel[key], paths) : tunnel[key]
+            }
+        }
+        return undefined
+    },
+
     // 其他方法
     big, price, priceUppercase, prefixZero, uuid, randomNumber, randomString, randomInt,
     cacheClient, cache, cacheGet, cacheSet, cacheRemove, cacheClean, cacheInfo,

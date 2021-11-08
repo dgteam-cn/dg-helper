@@ -177,7 +177,7 @@ class Storager {
     // 获取当前缓存信息
     cacheInfo() {
         const { mode, handle, info } = this.client;
-        return Object.assign({ mode, handle }, info());
+        return { mode, handle, ...info() };
     }
 }
 const Store = new Storager();

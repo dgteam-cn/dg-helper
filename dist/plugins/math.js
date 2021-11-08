@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const big = require('big.js');
 /**
  * 科学计算 big.js 库
@@ -253,3 +251,4 @@ module.exports = {
     big: Big, price, priceUppercase, prefixZero,
     uuid, randomNumber, randomString, randomInt
 };
+export {};
